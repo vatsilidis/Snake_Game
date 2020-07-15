@@ -5,8 +5,9 @@
 Game::Game(std::size_t grid_width, std::size_t grid_height)
     : snake(grid_width, grid_height),
       engine(dev()),
+	  tempSpeed{0.1},
       random_w(0, static_cast<int>(grid_width)),
-      random_h(0, static_cast<int>(grid_height)) {
+      random_h(0, static_cast<int>(grid_height)){ 
   PlaceFood();
 }
 
@@ -16,6 +17,23 @@ void Game::Run(Controller const &controller, Renderer &renderer,
   Uint32 frame_start;
   Uint32 frame_end;
   Uint32 frame_duration;
+  
+  // Setting the starting speed by the user
+  do{
+  	std::cout << "Please enter the starting speed of the snake, between 1 to 100 \n";
+    std::cin >> tempSpeed;
+  }while(tempSpeed < 1 || tempSpeed > 100);
+  snake.speed = tempSpeed / 100;
+  
+    // Setting the speed Increasing Rate by the user
+  do
+  {
+    std::cout << "Please insert the SPEED INCREASING RATE of the snake from 1 to 100 \n";
+	std::cin >> incr;
+  }while(incr < 1 || incr > 100);
+  
+	std::cout << "Let the game begin with starting speed: " << snake.speed << ", and increasing rate: " << incr << "% \n"; 
+  
   int frame_count = 0;
   bool running = true;
 
@@ -75,11 +93,16 @@ void Game::Update() {
 
   // Check if there's food over here
   if (food.x == new_x && food.y == new_y) {
-    score++;
+    /**
+    * Created a new scoring mechanism to make the game more challenging 
+    * New scoring mechanism assigns score depended on users selected speed, increasing spead Rate and how many food the snake eaten.
+    */
+    score += snake.speed*100 * incr ;
     PlaceFood();
     // Grow snake and increase speed.
     snake.GrowBody();
-    snake.speed += 0.02;
+//    snake.speed += 0.02;
+    snake.speed += incr/500;
   }
 }
 
