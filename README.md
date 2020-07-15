@@ -10,7 +10,7 @@ At the begin the game asking the user to enter values for:
 - The prefered starting speed from 1 to 100 
 - The prefered increasing rate from 1 to 100
 
-<img src="User_Input.jpg"/>
+<img src="User_Input.png"/>
 
 
 * The score increasing each time depending of the current speed and the selected by the user increasing rate. 
